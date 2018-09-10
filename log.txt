@@ -64,3 +64,47 @@ Venue Name: Express Live!
 Location: Columbus
 
 Date: 10/02/2018
+
+
+Venue Name: SAP Center At San Jose
+
+Location: San Jose
+
+Date: 09/09/2018
+
+
+Venue Name: Island Resort & Casino
+
+Location: Harris
+
+Date: 09/14/2018
+
+Movie Title: Gladiator
+Release Year: 2000
+IMDB: 8.5/10
+Rotten Tomatoes: 77%
+Country: USA, UK
+Language: English
+Plot: When a Roman General is betrayed, and his family murdered by an emperor's corrupt son, he comes to Rome as a gladiator to seek revenge.
+Actors: Russell Crowe, Joaquin Phoenix, Connie Nielsen, Oliver Reed
+        
+
+Venue Name: Island Resort & Casino
+
+Location: Harris
+
+Date: 09/14/2018
+
+
+Venue Name: KAABOO
+
+Location: Del Mar
+
+Date: 09/14/2018
+
+
+Venue Name: KAABOO
+
+Location: Del Mar
+
+Date: 09/14/2018

@@ -32,7 +32,7 @@ function search(select, name) {
         default:
             console.log(
                 `
-\nPlease type a command:
+\nPlease type one of these commands:
 \n"concert-this"
 \n"spotify-this-song"
 \n"movie-this"
@@ -42,13 +42,12 @@ function search(select, name) {
     }
 }
 
-function concertThis(select) {
-
+function concertThis(name) {
     var URL = "https://rest.bandsintown.com/artists/" + name + "/events?app_id=codingbootcamp";
 
-    request(URL, function (err, response, body) {
+    request(URL, function (error, response, body) {
 
-        if (!err && response.statusCode === 200) {
+        if (!error && response.statusCode === 200) {
 
             var data = JSON.parse(body);
 
@@ -58,26 +57,75 @@ function concertThis(select) {
 \nLocation: ${data[0].venue.city}
 \nDate: ${moment(data[0].datetime).format('L')}
 `
-
-            fs.appendFile("log.txt", results, function (err) {
-                if (err) throw err;
+            fs.appendFile("log.txt", results, function (error) {
+                if (error) throw error;
                 console.log(results);
             });
         }
     });
 }
 
+function spotifyThisSong(name) {
+    spotify.search({
+        type: "track",
+        query: name || "the sign",
+        limit: 1
+    }), function (error, data) {
+        if (error) {
+            return console.log("Error: " + error);
+        } else {
+            trackdata = data.tracks.items[0];
 
-// request(url, function (error, response, body) {
-//     if (!error && response.statusCode === 200) {
-//         var obj = JSON.parse(body);
+            var results =
+                `
+Song Name: ${trackdata.name}
+Artist: ${trackdata.album.artists[0].name}
+Preview Link: ${trackdata.preview_url}
+Album: ${trackdata.album.name}
+      `
+            fs.appendFile("log.txt", results, function (error) {
+                if (error) throw error;
+                console.log(results);
+            });
+        }
+    }
+}
 
-//                 var disp = `
-//         Name of Venue: ${}
-//         Venue Location: ${}
-//         Date of Event: ${}
-//         \n\n`;
-//     }
-// })
+function movieThis(name) {
 
-// console.log(name);
+    var URL = "http://www.omdbapi.com/?t=" + name + "&y=&plot=short&apikey=trilogy";
+
+    request(URL, function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+            var data = JSON.parse(body);
+            var results =
+                `
+Movie Title: ${data.Title}
+Release Year: ${data.Year}
+IMDB: ${data.Ratings[0].Value}
+Rotten Tomatoes: ${data.Ratings[1].Value}
+Country: ${data.Country}
+Language: ${data.Language}
+Plot: ${data.Plot}
+Actors: ${data.Actors}
+        `
+            fs.appendFile("log.txt", results, function (error) {
+                if (error) throw error;
+                console.log(results);
+            });
+        }
+    });
+}
+
+function doWhatItSays() {
+    fs.readFile('random.txt', 'utf8', function (error, data) {
+        if (error) {
+            console.log("Error: " + error);
+        }
+        else {
+            var arr = data.split(',');
+            console.log(arr);
+            spotifyThisSong();
+        }
+    });
+}

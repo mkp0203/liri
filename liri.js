@@ -1,3 +1,7 @@
+/*
+    This code is not complete. Spotify and do-what-it-says is not working properly. Still need to make adjustments.
+*/
+
 require("dotenv").config();
 
 var request = require('request');

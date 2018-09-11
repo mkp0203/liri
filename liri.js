@@ -1,16 +1,9 @@
-/*
-    This code is not complete. Spotify and do-what-it-says is not working properly. Still need to make adjustments.
-*/
-
 require("dotenv").config();
 
 var request = require('request');
 var keys = require("./keys.js");
 var Spotify = require('node-spotify-api');
-var spotify = new Spotify({
-    id: keys.spotify.id,
-    secret: keys.spotify.secret
-});
+var spotify = new Spotify(keys.spotify);
 var moment = require('moment');
 var fs = require('fs');
 
@@ -43,6 +36,7 @@ function search(select, name) {
 \n"do-what-it-says"
 `
             );
+            break;
     }
 }
 
@@ -70,29 +64,33 @@ function concertThis(name) {
 }
 
 function spotifyThisSong(name) {
-    spotify.search({
-        type: "track",
-        query: name || "the sign",
-        limit: 1
-    }), function (error, data) {
-        if (error) {
-            return console.log("Error: " + error);
-        } else {
-            trackdata = data.tracks.items[0];
+    spotify.search(
+        {
+            type: 'track',
+            query: name || 'the sign',
+            limit: 1
+        },
+        function (error, data) {
+            if (error) {
+                console.log('Error: ' + error);
+                return;
+            }
 
-            var results =
-                `
-Song Name: ${trackdata.name}
-Artist: ${trackdata.album.artists[0].name}
-Preview Link: ${trackdata.preview_url}
-Album: ${trackdata.album.name}
-      `
-            fs.appendFile("log.txt", results, function (error) {
+            var trackdata = data.tracks.items[0];
+            // console.log('TRACK DATA', trackdata);
+
+            var results = `
+          Song Name: ${trackdata.name}
+          Artist: ${trackdata.album.artists[0].name}
+          Preview Link: ${trackdata.preview_url}
+          Album: ${trackdata.album.name}
+        `;
+            fs.appendFile('log.txt', results, function (error) {
                 if (error) throw error;
                 console.log(results);
             });
         }
-    }
+    );
 }
 
 function movieThis(name) {
